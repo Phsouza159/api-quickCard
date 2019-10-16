@@ -46,19 +46,20 @@ public class EstudanteController extends ControllerBasic {
     }
 
     @RequestMapping(value = EstudanteController.path , method = RequestMethod.POST)
-    public ResponseEntity<String> getByID() throws Exception {
-        return  ResponseEntity.ok("Ok");
-    }
-
-    @RequestMapping(value = EstudanteController.path, method = RequestMethod.PUT)
-    @ResponseBody
-    public ResponseEntity<IEstudante> getByID(@RequestBody EstudanteModel estudanteModel) throws Exception {
+    public ResponseEntity<IEstudante> post(@RequestBody EstudanteModel estudanteModel) throws Exception {
 
         IEstudante responseEntity = this.mapper.map(estudanteModel , Estudante.class);
 
         this._estudanteServico.add(responseEntity);
 
         return  ResponseEntity.status(HttpStatus.CREATED).body(responseEntity);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = EstudanteController.path, method = RequestMethod.PUT)
+    public ResponseEntity<IEstudante> put(@RequestBody EstudanteModel estudanteModel) throws Exception {
+
+        throw  new NoSuchMethodException();
     }
 
 }
