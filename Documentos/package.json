@@ -1,0 +1,19 @@
+{
+  "name": "documentos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "httpService.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-loader": "^8.0.6",
+    "g": "^2.0.1",
+    "webpack": "^4.41.1",
+    "webpack-cli": "^3.3.9",
+    "webpack-dev": "^1.1.1",
+    "webpack-dev-server": "^3.8.2"
+  }
+}
