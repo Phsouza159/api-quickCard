@@ -44,10 +44,14 @@ public class EstudanteServico extends ServicoBasico implements IEstudanteServico
     @Override
     public void add(IEstudante estudanteEntity) {
 
-        UUID id = UUID.randomUUID();
-        estudanteEntity.setId(id);
-
+        estudanteEntity.setId( UUID.randomUUID());
         estudanteEntity.setSenha(this.hashSenha(estudanteEntity.getSenha()));
+
+        this.DbContexto.Add(estudanteEntity);
+    }
+
+    @Override
+    public void update(IEstudante estudanteEntity) {
 
         this.DbContexto.Add(estudanteEntity);
     }

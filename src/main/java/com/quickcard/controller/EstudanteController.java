@@ -1,5 +1,6 @@
 package com.quickcard.controller;
 
+import com.quickcard.domain.interfaces.controller.IControllerRest;
 import com.quickcard.domain.interfaces.entidade.IEstudante;
 import com.quickcard.domain.interfaces.servico.IEstudanteServico;
 import com.quickcard.domain.entidades.Estudante ;
@@ -16,13 +17,14 @@ import java.util.Objects;
 
 @RestController
 @CrossOrigin
-public class EstudanteController extends ControllerBasic {
+public class EstudanteController extends ControllerBasic  {
 
     @Autowired
     private IEstudanteServico _estudanteServico;
 
     private final static String path = "/estudante";
 
+    @Autowired
     public EstudanteController(IEstudanteServico estudanteServico) {
 
         this._estudanteServico = estudanteServico;

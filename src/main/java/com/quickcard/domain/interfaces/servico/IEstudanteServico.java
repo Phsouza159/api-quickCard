@@ -13,4 +13,6 @@ public interface IEstudanteServico {
     IEstudante getById(String id);
 
     void add(IEstudante responseEntity);
+
+    void update(IEstudante estudanteEntity);
 }

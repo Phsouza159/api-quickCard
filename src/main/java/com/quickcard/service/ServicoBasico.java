@@ -1,12 +1,20 @@
 package com.quickcard.service;
 
 import com.quickcard.domain.interfaces.servico.IServicoBasico;
+import org.dozer.DozerBeanMapper;
 
 import java.security.MessageDigest;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public abstract class ServicoBasico implements IServicoBasico {
+
+    protected DozerBeanMapper mapper;
+
+    public ServicoBasico() {
+
+        this.mapper = new DozerBeanMapper();
+    }
 
     public String hashSenha(String senhaPura) {
         try {

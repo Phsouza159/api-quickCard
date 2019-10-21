@@ -8,6 +8,8 @@ import dev.morphia.annotations.Id;
 
 public abstract class EntidadeBasica implements IEntidadeBasica {
 
+    public EntidadeBasica() { }
+
     public UUID getId() {
         return UUID.fromString(Id);
     }

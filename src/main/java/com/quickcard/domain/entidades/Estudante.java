@@ -1,36 +1,47 @@
 package com.quickcard.domain.entidades;
 
+import com.quickcard.domain.interfaces.entidade.IBlocoCartao;
+import com.quickcard.domain.interfaces.entidade.ICartaoMemoria;
 import com.quickcard.domain.interfaces.entidade.IEstudante;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Estudante extends EntidadeBasica implements IEstudante {
 
-    public Estudante() {
-
-    }
+    public Estudante() { super(); }
 
     String nome;
     String senha;
     String email;
-    List<Cronograma> cronogramas;
+    List<IBlocoCartao> listBlocoCartao;
 
-    public List<Cronograma> getCronogramas() {
-        return cronogramas;
+
+    @Override
+    public IBlocoCartao getBlocoCartao(UUID id) {
+        for ( IBlocoCartao blocoCartao: this.listBlocoCartao) {
+            if(blocoCartao.getId().equals(id)){
+                return blocoCartao;
+            }
+        }
+        return null;
     }
 
-    public void setCronogramas(List<Cronograma> cronogramas) {
-        this.cronogramas = cronogramas;
+    @Override
+    public List<IBlocoCartao> getBlocoCartao() {
+        return this.listBlocoCartao;
     }
 
-    public void addCronograma(Cronograma cronogramas){
+    @Override
+    public void addBlocoCartao(IBlocoCartao blocoCartao) {
+        if(this.listBlocoCartao == null){
 
-        if(this.cronogramas == null)
-            this.cronogramas = new ArrayList<Cronograma>();
-
-        this.cronogramas.add(cronogramas);
+            this.listBlocoCartao = new ArrayList<IBlocoCartao>();
+        }
+        this.listBlocoCartao.add(blocoCartao);
     }
+
 
     public String getNome() {
         return nome;
