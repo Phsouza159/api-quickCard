@@ -14,7 +14,7 @@ public interface IControllerRest {
 
     <ITentity> ResponseEntity<ITentity> getById(@PathVariable("id") String id , String idEstudante) throws Exception;
 
-    <ITentity , IModel> ResponseEntity<ITentity> created(@RequestBody IModel model) throws Exception;
+    <ITentity > ResponseEntity<ITentity> created(@RequestBody ITentity model) throws Exception;
 
     <ITentity , IModel> ResponseEntity<ITentity> update(@RequestBody IModel model) throws Exception;
 

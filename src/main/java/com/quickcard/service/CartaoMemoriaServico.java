@@ -29,16 +29,22 @@ public class CartaoMemoriaServico extends ServicoBasico implements ICartaoMemori
     public List<ICartaoMemoria> getAll(String idEstudante) {
         List<ICartaoMemoria> response = new ArrayList<ICartaoMemoria>();
         IEstudante estudanteEntity = this._estudanteServico.getById(idEstudante);
+        try{
 
-        if(estudanteEntity != null) {
-            for(IBlocoCartao blocoCartao : estudanteEntity.getBlocoCartao()) {
-                for ( ICartaoMemoria cartaoMemoria :  blocoCartao.getCartaoMemoria()) {
+            if(estudanteEntity != null) {
+                for(IBlocoCartao blocoCartao : estudanteEntity.getBlocoCartao()) {
+                    for ( ICartaoMemoria cartaoMemoria :  blocoCartao.getCartaoMemoria()) {
                         response.add(cartaoMemoria);
+                    }
                 }
+                return response;
             }
-            return response;
+            return null;
+
+        }catch(NullPointerException err) {
+
+            return null;
         }
-        return null;
     }
 
     @Override
