@@ -1,6 +1,7 @@
 package com.quickcard.service;
 
 
+import com.quickcard.domain.exception.EntityNotFoundException;
 import com.quickcard.domain.interfaces.entidade.IEstudante;
 import com.quickcard.domain.interfaces.servico.IAutentificacaoServico;
 import com.quickcard.domain.interfaces.servico.IEstudanteServico;
@@ -19,7 +20,7 @@ public class AutentificacaoServico extends ServicoBasico implements IAutentifica
         this._estudanteServico = estudanteServico;
     }
 
-    public void verificarLogin(String userEmail , String userPassWord) throws BadCredentialsException {
+    public void verificarLogin(String userEmail , String userPassWord) throws BadCredentialsException , EntityNotFoundException {
 
         IEstudante estudante = this._estudanteServico.getByEmail(userEmail);
 

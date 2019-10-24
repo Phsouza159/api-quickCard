@@ -8,6 +8,7 @@ import com.quickcard.domain.interfaces.entidade.ICartaoMemoria;
 import com.quickcard.domain.interfaces.entidade.IEstudante;
 import com.quickcard.domain.interfaces.model.ICartaoMemoriaModel;
 import com.quickcard.domain.interfaces.servico.ICartaoMemoriaServico;
+import com.quickcard.domain.interfaces.servico.IEstudanteServico;
 import com.quickcard.model.CartaoMemoriaModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -24,9 +25,13 @@ public class CartaoMemoriaController extends ControllerBasic {
     private ICartaoMemoriaServico _cartaoMemoriaServico;
 
     @Autowired
-    public CartaoMemoriaController(ICartaoMemoriaServico cartaoMemoriaServico) {
+    private IEstudanteServico _estudanteServico;
+
+    @Autowired
+    public CartaoMemoriaController(ICartaoMemoriaServico cartaoMemoriaServico , IEstudanteServico estudanteServico) {
 
         this._cartaoMemoriaServico = cartaoMemoriaServico;
+        this._estudanteServico     = estudanteServico;
     }
 
     @RequestMapping(value = RoutesController.CARTAO_MEMORIA_PATH , method = RequestMethod.GET)
@@ -51,10 +56,11 @@ public class CartaoMemoriaController extends ControllerBasic {
         return ResponseEntity.ok(response);
     }
 
-    @RequestMapping(value = RoutesController.CARTAO_MEMORIA_PATH , method = RequestMethod.POST)
+    @RequestMapping(value = RoutesController.CARTAO_MEMORIA_PATH , method = RequestMethod.POST ,consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<ICartaoMemoria> created(@RequestBody CartaoMemoriaModel model) throws Exception {
 
         ICartaoMemoria response = this.mapper.map(model , CartaoMemoria.class);
+
 
         return ResponseEntity.ok(response);
     }

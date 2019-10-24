@@ -1,9 +1,13 @@
 package com.quickcard.service;
 
+import com.quickcard.domain.exception.EntityNotFoundException;
+import com.quickcard.domain.interfaces.entidade.IEntidadeBasica;
 import com.quickcard.domain.interfaces.servico.IServicoBasico;
 import org.dozer.DozerBeanMapper;
 
 import java.security.MessageDigest;
+import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,6 +19,29 @@ public abstract class ServicoBasico implements IServicoBasico {
 
         this.mapper = new DozerBeanMapper();
     }
+
+    public <TEntity extends  IEntidadeBasica> TEntity getItemCollectionById(List<TEntity> entityList , String id) throws EntityNotFoundException {
+
+        if(entityList != null) {
+            for(TEntity entity : entityList){
+                if(entity.getId() == UUID.fromString(id)) {
+                    return entity;
+                }
+            }
+        }
+
+        throw new EntityNotFoundException();
+    }
+
+    public <TEntity extends  IEntidadeBasica> List<TEntity> removeItemCollectionById(List<TEntity> entityList , String id) throws EntityNotFoundException {
+
+        TEntity entity = this.getItemCollectionById(entityList , id);
+
+        entityList.remove(entity);
+
+        return  entityList;
+    }
+
 
     public String hashSenha(String senhaPura) {
         try {

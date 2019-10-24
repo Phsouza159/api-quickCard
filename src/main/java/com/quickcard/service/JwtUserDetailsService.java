@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.quickcard.domain.exception.EntityNotFoundException;
 import com.quickcard.domain.interfaces.entidade.IEstudante;
 import com.quickcard.domain.interfaces.servico.IEstudanteServico;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +27,19 @@ public class JwtUserDetailsService implements UserDetailsService {
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException  {
+		try {
+			IEstudante estudante = this._estudanteServico.getByEmail(username);
 
-		IEstudante estudante = this._estudanteServico.getByEmail(username);
+			if (estudante != null) {
 
-		if (estudante != null) {
+				return new User(estudante.getEmail(), estudante.getSenha(), new ArrayList<>());
+			}
 
-			return new User(estudante.getEmail(), estudante.getSenha(), new ArrayList<>());
+			throw new UsernameNotFoundException("User not found with username: " + username);
+		}catch (EntityNotFoundException err) {
+
+			throw new UsernameNotFoundException("User not found with username: " + username);
 		}
-
-		throw new UsernameNotFoundException("User not found with username: " + username);
 	}
 }

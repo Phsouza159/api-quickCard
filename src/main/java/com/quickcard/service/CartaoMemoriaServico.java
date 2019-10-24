@@ -1,5 +1,6 @@
 package com.quickcard.service;
 
+import com.quickcard.domain.exception.EntityNotFoundException;
 import com.quickcard.domain.interfaces.entidade.IBlocoAnotacao;
 import com.quickcard.domain.interfaces.entidade.IBlocoCartao;
 import com.quickcard.domain.interfaces.entidade.ICartaoMemoria;
@@ -26,7 +27,7 @@ public class CartaoMemoriaServico extends ServicoBasico implements ICartaoMemori
     }
 
     @Override
-    public List<ICartaoMemoria> getAll(String idEstudante) {
+    public List<ICartaoMemoria> getAll(String idEstudante) throws EntityNotFoundException {
         List<ICartaoMemoria> response = new ArrayList<ICartaoMemoria>();
         IEstudante estudanteEntity = this._estudanteServico.getById(idEstudante);
         try{
@@ -48,7 +49,7 @@ public class CartaoMemoriaServico extends ServicoBasico implements ICartaoMemori
     }
 
     @Override
-    public ICartaoMemoria getById(String idEstudante, String idCartaoMemoria) {
+    public ICartaoMemoria getById(String idEstudante, String idCartaoMemoria) throws EntityNotFoundException {
         IEstudante estudanteEntity = this._estudanteServico.getById(idEstudante);
 
         if(estudanteEntity != null) {
@@ -65,7 +66,7 @@ public class CartaoMemoriaServico extends ServicoBasico implements ICartaoMemori
     }
 
     @Override
-    public void add(ICartaoMemoria entity, String idEstudante, String idBlocoCartao) {
+    public void add(ICartaoMemoria entity, String idEstudante, String idBlocoCartao) throws EntityNotFoundException {
         IEstudante estudanteEntity = this._estudanteServico.getById(idEstudante);
 
         if(estudanteEntity != null) {
@@ -80,7 +81,7 @@ public class CartaoMemoriaServico extends ServicoBasico implements ICartaoMemori
     }
 
     @Override
-    public void update(ICartaoMemoria entity, String idEstudante) {
+    public void update(ICartaoMemoria entity, String idEstudante) throws EntityNotFoundException {
         String idCartaoMemoria = entity.getId().toString();
         IEstudante estudanteEntity = this._estudanteServico.getById(idEstudante);
 
