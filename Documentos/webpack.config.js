@@ -2,11 +2,11 @@ var path = require('path');
 
 module.exports = {
     entry : {
-        filename:  path.resolve(__dirname , './httpService.js'),
+        filename:  path.resolve(__dirname , './estudante.service.js'),
     } , 
     output : {
         path: path.resolve(__dirname , './'),
-        filename: 'httpService.build.js',
+        filename: 'estudante.build.js',
     },
     module : {
         rules: [

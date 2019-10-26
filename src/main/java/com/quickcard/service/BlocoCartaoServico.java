@@ -6,10 +6,12 @@ import com.quickcard.domain.interfaces.entidade.IEstudante;
 import com.quickcard.domain.interfaces.servico.IBlocoCartaoServico;
 import com.quickcard.domain.interfaces.servico.IEstudanteServico;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-public class BlocoCartaoServico  extends ServicoBasico implements IBlocoCartaoServico {
+@Component
+public class BlocoCartaoServico extends ServicoBasico implements IBlocoCartaoServico {
 
     @Autowired
     private IEstudanteServico _estudanteServico;
