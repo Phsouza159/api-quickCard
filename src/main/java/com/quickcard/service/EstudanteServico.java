@@ -1,6 +1,7 @@
 package com.quickcard.service;
 
 import com.quickcard.domain.entidades.Estudante;
+import com.quickcard.domain.exception.EntityNotFoundException;
 import com.quickcard.domain.interfaces.entidade.IEstudante;
 import com.quickcard.domain.interfaces.infra.IDbContexto;
 import com.quickcard.domain.interfaces.servico.IEstudanteServico;
@@ -35,8 +36,12 @@ public class EstudanteServico extends ServicoBasico implements IEstudanteServico
     }
 
     @Override
-    public IEstudante getById(String id) {
+    public IEstudante getById(String id) throws EntityNotFoundException {
         IEstudante estudante = this.DbContexto.firsWhere(Estudante.class , "_id" , id);
+
+        if(estudante == null) {
+            throw new EntityNotFoundException("A entidade estudante não foi localizada na base com o id " + id);
+        }
 
         return estudante;
     }

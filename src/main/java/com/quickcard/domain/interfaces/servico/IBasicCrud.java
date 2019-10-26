@@ -8,9 +8,9 @@ import java.util.List;
 public interface  IBasicCrud <ITenty extends IEntidadeBasica> {
 
     List<ITenty> getAll (String idEstudante)                          throws EntityNotFoundException;
-    ITenty getById      (String idEstudante , String idCartaoMemoria) throws EntityNotFoundException;
-    void add            (ITenty entity , String idEstudante)          throws EntityNotFoundException;
-    void update         (ITenty entity , String idEstudante )         throws EntityNotFoundException;
-    void delete         (ITenty entity , String idEstudante )         throws EntityNotFoundException;
+    ITenty getById      (String idEstudante , String idItem) throws EntityNotFoundException;
+    void add            (ITenty entity , String idItem)          throws EntityNotFoundException;
+    void update         (ITenty entity , String idItem )         throws EntityNotFoundException;
+    void delete         (ITenty entity , String idItem )         throws EntityNotFoundException;
 
 }

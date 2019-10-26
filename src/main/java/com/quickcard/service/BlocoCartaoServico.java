@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class BlocoCartaoServico extends ServicoBasico implements IBlocoCartaoServico {
@@ -43,6 +44,8 @@ public class BlocoCartaoServico extends ServicoBasico implements IBlocoCartaoSer
 
         IEstudante estudante = this._estudanteServico.getById(idEstudante);
 
+        entity.setId(UUID.randomUUID());
+
         estudante.addBlocoCartao(entity);
 
         this._estudanteServico.update(estudante);
@@ -52,9 +55,10 @@ public class BlocoCartaoServico extends ServicoBasico implements IBlocoCartaoSer
     public void update(IBlocoCartao entity, String idEstudante) throws EntityNotFoundException {
 
         IEstudante estudante     = this._estudanteServico.getById(idEstudante);
-        IBlocoCartao blocoCartao = this.getItemCollectionById( estudante.getBlocoCartao() , entity.getId().toString() );
+        IBlocoCartao blocoCartaoBase = this.getItemCollectionById( estudante.getBlocoCartao() , entity.getId().toString() );
 
-        blocoCartao.setNomeBloco( entity.getNomeBloco() );
+        blocoCartaoBase.setNomeBloco( entity.getNomeBloco() );
+
         this._estudanteServico.update(estudante);
     }
 

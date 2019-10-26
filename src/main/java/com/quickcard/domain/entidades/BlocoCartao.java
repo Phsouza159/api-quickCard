@@ -31,6 +31,9 @@ public class BlocoCartao extends EntidadeBasica implements IBlocoCartao {
     }
 
     @Override
+    public void setCartaoMemoria(List<ICartaoMemoria> listCartaoMemoria) { this.listCartaoMemoria = listCartaoMemoria; }
+
+    @Override
     public void addCartaoMemoria(ICartaoMemoria cartaoMemoria) {
         if(this.listCartaoMemoria == null) {
             this.listCartaoMemoria = new ArrayList<ICartaoMemoria>();

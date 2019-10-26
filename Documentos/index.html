@@ -27,6 +27,20 @@
 
             <button class="btn btn-primary mt-2" onclick="quickCard.teste.buscarDadosEstudante()">Buscar</button>
         </div>
+
+        <div class="card p-3">
+            <label>Id:<p id='estudante-id'></p></label>
+            <label>Nome:<p id='estudante-nome'></p></label>
+            <label>Email:<p id='estudante-email'></p></label>
+            <label>Senha:<p id='estudante-senha'></p></label>
+        </div>
+
+        <div class="card p-3">
+            <p class="h6">Cartões Memoria</p>
+        </div>
+
+
+
     </div>
 
     <script src="./estudante.build.js"></script>
@@ -55,6 +69,8 @@
                 let _URL = 'http://127.0.0.1:8080'
                 let _IDESTUDANTE = ''
 
+                estudanteService.__HOST = _URL
+
                 let logarAplicacao = async () => {
                     estudanteService.login(user,senha);
                 }
@@ -66,7 +82,27 @@
 
                 quickCard.teste.buscarDadosEstudante = async () => {
                     _IDESTUDANTE = getValueInput('id-estudante')
+                   let estudante = await estudanteService.getEstudante(_IDESTUDANTE)
+                   
+                   setEstudante(estudante)
 
+                   await estudanteService.getAllBlocoCartao(_IDESTUDANTE)
+                }
+
+
+                let setEstudante = (estudante) => {
+                    setTextElementById('estudante-id' , estudante.id )
+                    setTextElementById('estudante-nome' , estudante.nome )
+                    setTextElementById('estudante-email' , estudante.email )
+                    setTextElementById('estudante-senha' , estudante.senha )
+                }
+
+
+                let setTextElementById = (id , text) => {
+                    let element = document.getElementById(id);
+                    if (!element) throw `Element id ${id} não localizado`
+
+                    element.innerText = text;
                 }
 
                 let setInputValue = (idInput, value) => {

@@ -24,7 +24,8 @@ public abstract class ServicoBasico implements IServicoBasico {
 
         if(entityList != null) {
             for(TEntity entity : entityList){
-                if(entity.getId() == UUID.fromString(id)) {
+                String idString = entity.getId().toString();
+                if( idString.equals(id)) {
                     return entity;
                 }
             }

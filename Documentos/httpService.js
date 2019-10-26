@@ -1,7 +1,17 @@
 let tratarErroRequest = (err) => {
-   
+
     console.warn(err)
     return err
+}
+
+let tratarResponse = (response) => {
+
+    if(response.status == 204) {
+        console.warn(`Response 204 from url ${response.url}`)
+        return null;
+    }
+
+    return response.json()
 }
 
 let getAuthorization = (headerAuthorization) => {
@@ -20,7 +30,7 @@ let onPost = async function(url , body = {}){
             method: 'POST',
             body : JSON.stringify(body)
         })
-        .then( result => result.json())
+        .then( result => tratarResponse(result))
         .catch( err => tratarErroRequest(err))
 }
 
@@ -33,7 +43,7 @@ let onGet = async function(url){
             },
             method: 'GET',
         })
-        .then( result => result.json())
+        .then( result => tratarResponse(result))
         .catch( err => tratarErroRequest(err))
 }
 
@@ -47,7 +57,7 @@ let onPut = async function(url , body = {}){
             method: 'PUT',
             body : JSON.stringify(body)
         })
-        .then( result => result.json())
+        .then( result => tratarResponse(result))
         .catch( err => tratarErroRequest(err))
 }
 
@@ -61,7 +71,7 @@ let onDelete = async function(url , body = {}){
             method: 'DELETE',
             body : JSON.stringify(body)
         })
-        .then( result => result.json())
+        .then( result => tratarResponse(result))
         .catch( err => tratarErroRequest(err))
 }
 
