@@ -1,24 +1,34 @@
 
 import * as httpService from './httpService';
 
-(function () {
+export default class EstudanteService {
 
-    let estudanteService = {}
-    let pathBlocoCartao = 'blocoCartaoMemoria'
+    static pathBlocoCartao ='blocoCartaoMemoria'
+    static pathAuthenticate ='authenticate'
 
+    static _host = 'http://186.213.213.162:8080'
+    static _path = '/estudante'
+    static _url = `${_host}${_path}`
 
-    estudanteService.__HOST = 'http://127.0.0.1:8080'
-    estudanteService.__PATH = '/estudante'
-    estudanteService._url = `${estudanteService.__HOST}${estudanteService.__PATH}`
+    isAuthenticate = () => {
+        let user = localStorage.getItem('user');
+
+        if(user != null) {
+            return true;
+        }
+
+        return false;
+    }
 
     //#region ESTUDANTE
 
     /**
-     * @param idEstudante id do estudante
+     * @param user usuario email
+     * @param senha senha do usuario
      * @example login( 'user' , 'senha')
      */
-    estudanteService.login = async (user, senha) => {
-        let userToken = await httpService.onPost(`${estudanteService.__HOST}/authenticate`, { username: user, password: senha })
+    login = async (user, senha) => {
+        let userToken = await httpService.onPost(`${EstudanteService._host}/${EstudanteService.pathAuthenticate}`, { username: user, password: senha })
 
         if (userToken) {
             localStorage.setItem('token', userToken.jwttoken)
@@ -35,9 +45,9 @@ import * as httpService from './httpService';
      * @example getEstudante( 'de447979-f394-466e-bb43-8c1dc1f13650')
      * @returns Estudante entity
      */
-    estudanteService.getEstudante = async (id) => {
+    getEstudante = async (id) => {
 
-        return httpService.onGet(`${estudanteService._url}/${id}`)
+        return httpService.onGet(`${EstudanteService._url}/${id}`)
     }
 
     /**
@@ -48,9 +58,9 @@ import * as httpService from './httpService';
 	 *   "senha": "string"
      * }
      */
-    estudanteService.estudanteCreated = async (estudanteModel) => {
+    estudanteCreated = async (estudanteModel) => {
 
-        return httpService.onGet(`${estudanteService._url}/${id}`)
+        return httpService.onGet(`${EstudanteService._url}/${id}`)
     }
 
     //#endregion
@@ -62,9 +72,9 @@ import * as httpService from './httpService';
      * @returns Coleção de blocos de cartoes entity
      * @example getAllBlocoCartao( 'de447979-f394-466e-bb43-8c1dc1f13650')
      */
-    estudanteService.getAllBlocoCartao = async (idEstudante) => {
+    getAllBlocoCartao = async (idEstudante) => {
 
-        return httpService.onGet(`${estudanteService.__HOST}/${pathBlocoCartao}/${idEstudante}`)
+        return httpService.onGet(`${EstudanteService._host}/${EstudanteService.pathBlocoCartao}/${idEstudante}`)
     }
 
     /**
@@ -73,9 +83,9 @@ import * as httpService from './httpService';
      * @returns Bloco-cartap referente ao id passado na requisição entity
      * @example getBlocoCartaoById( 'de447979-f394-466e-bb43-8c1dc1f13650' , '8f506718-39f2-4a7a-8ac6-569149e79c51')
      */
-    estudanteService.getBlocoCartaoById = async (idEstudante, idBlocoCartao) => {
+    getBlocoCartaoById = async (idEstudante, idBlocoCartao) => {
 
-        return httpService.onGet(`${estudanteService.__HOST}/${pathBlocoCartao}/${idEstudante}/${idBlocoCartao}`)
+        return httpService.onGet(`${EstudanteService._host}/${EstudanteService.pathBlocoCartao}/${idEstudante}/${idBlocoCartao}`)
     }
 
     /**
@@ -86,9 +96,9 @@ import * as httpService from './httpService';
       * 	    "nomeBloco" : "string"
       * }
       */
-    estudanteService.blocoCartaoUpdate = async (idEstudante, idBlocoCartao , blocoCartaoModel) => {
+    blocoCartaoUpdate = async (idEstudante, idBlocoCartao , blocoCartaoModel) => {
 
-        httpService.onPost(`${estudanteService.__HOST}/${idEstudante}/${idBlocoCartao}`, blocoCartaoModel)
+        httpService.onPost(`${EstudanteService._host}/${EstudanteService.pathBlocoCartao}/${idEstudante}/${idBlocoCartao}`, blocoCartaoModel)
     }
 
     /**
@@ -96,12 +106,9 @@ import * as httpService from './httpService';
      * @param idBlocoCartao id do bloco-cartao
      * @example getBlocoCartaoDelete( 'de447979-f394-466e-bb43-8c1dc1f13650' , '8f506718-39f2-4a7a-8ac6-569149e79c51')
      */
-    estudanteService.getBlocoCartaoDelete = async (idEstudante, idBlocoCartao) => {
+    getBlocoCartaoDelete = async (idEstudante, idBlocoCartao) => {
 
-        return httpService.onDelete(`${estudanteService.__HOST}/${pathBlocoCartao}/${idEstudante}/${idBlocoCartao}`)
+        return httpService.onDelete(`${EstudanteService._host}/${EstudanteService.pathBlocoCartao}/${idEstudante}/${idBlocoCartao}`)
     }
     //#endregion
-
-    window.estudanteService = estudanteService
-    //module.exports = { estudanteService }
-})();
+}

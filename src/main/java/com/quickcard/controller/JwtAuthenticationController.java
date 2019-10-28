@@ -2,7 +2,9 @@ package com.quickcard.controller;
 
 import java.util.Objects;
 
+import com.quickcard.domain.interfaces.entidade.IEstudante;
 import com.quickcard.domain.interfaces.servico.IAutentificacaoServico;
+import com.quickcard.domain.interfaces.servico.IEstudanteServico;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -30,6 +32,9 @@ public class JwtAuthenticationController extends ControllerBasic {
 	private JwtTokenUtil jwtTokenUtil;
 
 	@Autowired
+	private IEstudanteServico estudanteServico;
+
+	@Autowired
 	private UserDetailsService jwtInMemoryUserDetailsService;
 
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
@@ -40,11 +45,13 @@ public class JwtAuthenticationController extends ControllerBasic {
 		final UserDetails userDetails = jwtInMemoryUserDetailsService
 				.loadUserByUsername(authenticationRequest.getUsername());
 
-		final String token = jwtTokenUtil.generateToken(userDetails);
+		IEstudante estudante = estudanteServico.getByEmail(authenticationRequest.getUsername());
 
+
+		final String token = jwtTokenUtil.generateToken(userDetails);
 		String userName = jwtTokenUtil.getUsernameFromToken(token);
 
-		return ResponseEntity.ok( this.serializar(new JwtResponse(token , userName)));
+			return ResponseEntity.ok( this.serializar(new JwtResponse(token , userName , estudante.getId().toString() )));
 	}
 
 	private void authenticate(String userEmail, String password) throws Exception {
