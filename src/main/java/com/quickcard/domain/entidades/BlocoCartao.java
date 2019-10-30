@@ -38,6 +38,8 @@ public class BlocoCartao extends EntidadeBasica implements IBlocoCartao {
         if(this.listCartaoMemoria == null) {
             this.listCartaoMemoria = new ArrayList<ICartaoMemoria>();
         }
+
+        this.listCartaoMemoria.add(cartaoMemoria);
     }
 
     @Override
@@ -48,5 +50,10 @@ public class BlocoCartao extends EntidadeBasica implements IBlocoCartao {
     @Override
     public void setNomeBloco(String nomeBloco) {
         this.nomeBloco = nomeBloco;
+    }
+
+    @Override
+    public void removeItemCartaoMemoria(ICartaoMemoria cartaoMemoria) {
+        this.listCartaoMemoria.remove(cartaoMemoria);
     }
 }

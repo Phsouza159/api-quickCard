@@ -11,6 +11,6 @@ public interface ICartaoMemoriaServico extends IServicoBasico {
     ICartaoMemoria getById(String idEstudante , String idCartaoMemoria) throws EntityNotFoundException;
     void add(ICartaoMemoria entity , String idEstudante , String idBlocoCartao) throws EntityNotFoundException;
     void update(ICartaoMemoria entity , String idEstudante ) throws EntityNotFoundException;
-    void delete(ICartaoMemoria entity , String idEstudante );
+    void delete(ICartaoMemoria entity , String idEstudante ) throws EntityNotFoundException;
 
 }

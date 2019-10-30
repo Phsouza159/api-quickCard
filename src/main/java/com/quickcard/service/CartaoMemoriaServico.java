@@ -50,34 +50,48 @@ public class CartaoMemoriaServico extends ServicoBasico implements ICartaoMemori
 
     @Override
     public ICartaoMemoria getById(String idEstudante, String idCartaoMemoria) throws EntityNotFoundException {
+
         IEstudante estudanteEntity = this._estudanteServico.getById(idEstudante);
 
         if(estudanteEntity != null) {
             for(IBlocoCartao blocoCartao : estudanteEntity.getBlocoCartao()) {
                 for ( ICartaoMemoria cartaoMemoria :  blocoCartao.getCartaoMemoria()) {
 
-                    if(cartaoMemoria.getId().equals(idCartaoMemoria)) {
+                    if(cartaoMemoria.getId().toString().equals(idCartaoMemoria)) {
                         return cartaoMemoria;
                     }
                 }
             }
         }
-        return null;
+
+        throw new EntityNotFoundException("A entidade cartao memoria correspondente ao id " + idCartaoMemoria + "não foi localizada");
+    }
+
+    public ICartaoMemoria getById(IEstudante estudanteEntity, String idCartaoMemoria) throws EntityNotFoundException {
+        for(IBlocoCartao blocoCartao : estudanteEntity.getBlocoCartao()) {
+            for ( ICartaoMemoria cartaoMemoria :  blocoCartao.getCartaoMemoria()) {
+
+                if(cartaoMemoria.getId().toString().equals(idCartaoMemoria)) {
+                    return cartaoMemoria;
+                }
+            }
+        }
+
+        throw new EntityNotFoundException("A entidade cartao memoria correspondente ao id " + idCartaoMemoria + "não foi localizada");
     }
 
     @Override
     public void add(ICartaoMemoria entity, String idEstudante, String idBlocoCartao) throws EntityNotFoundException {
+
         IEstudante estudanteEntity = this._estudanteServico.getById(idEstudante);
 
-        if(estudanteEntity != null) {
-            IBlocoCartao  blocoCartao = estudanteEntity.getBlocoCartao( UUID.fromString(idBlocoCartao));
+        IBlocoCartao  blocoCartao = estudanteEntity.getBlocoCartao( UUID.fromString(idBlocoCartao));
 
-            entity.setId( UUID.randomUUID() );
+        entity.setId( UUID.randomUUID() );
 
-            blocoCartao.addCartaoMemoria(entity);
+        blocoCartao.addCartaoMemoria(entity);
 
-            this._estudanteServico.update(estudanteEntity);
-        }
+        this._estudanteServico.update(estudanteEntity);
     }
 
     @Override
@@ -85,22 +99,32 @@ public class CartaoMemoriaServico extends ServicoBasico implements ICartaoMemori
         String idCartaoMemoria = entity.getId().toString();
         IEstudante estudanteEntity = this._estudanteServico.getById(idEstudante);
 
-        if(estudanteEntity != null) {
-            for(IBlocoCartao blocoCartao : estudanteEntity.getBlocoCartao()) {
-                for ( ICartaoMemoria cartaoMemoria :  blocoCartao.getCartaoMemoria()) {
+        ICartaoMemoria cartaoMemoriaBase = this.getById(estudanteEntity , idCartaoMemoria);
 
-                    if(cartaoMemoria.getId().equals(idCartaoMemoria)) {
+        cartaoMemoriaBase.setFrenteCartao(entity.getFrenteCartao());
+        cartaoMemoriaBase.setVersoCartao(entity.getVersoCartao());
 
-                        this.mapper.map( entity , cartaoMemoria);
-                        this._estudanteServico.update(estudanteEntity);
-                        return;
-                    }
+        this._estudanteServico.update(estudanteEntity);
+    }
+
+    @Override
+    public void delete(ICartaoMemoria entity, String idEstudante) throws EntityNotFoundException {
+
+        String idCartaoMemoria = entity.getId().toString();
+        IEstudante estudanteEntity = this._estudanteServico.getById(idEstudante);
+
+        for(IBlocoCartao blocoCartao : estudanteEntity.getBlocoCartao()) {
+            for ( ICartaoMemoria cartaoMemoria :  blocoCartao.getCartaoMemoria()) {
+
+                if(cartaoMemoria.getId().toString().equals(idCartaoMemoria)) {
+
+                    blocoCartao.removeItemCartaoMemoria(cartaoMemoria);
+
+                    this._estudanteServico.update(estudanteEntity);
+                    return;
                 }
             }
         }
     }
 
-    @Override
-    public void delete(ICartaoMemoria entity, String idEstudante) {
-    }
 }

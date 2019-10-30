@@ -2,8 +2,8 @@ package com.quickcard.domain.interfaces.entidade;
 
 public interface ICartaoMemoria extends IEntidadeBasica {
 
-    String GetFrenteCartao();
-    String GetVersoCartao();
-    void SetFrenteCartao(String frenteCartao);
-    void SetVersoCartao(String versoCartao);
+    String getFrenteCartao();
+    String getVersoCartao();
+    void setFrenteCartao(String frenteCartao);
+    void setVersoCartao(String versoCartao);
 }

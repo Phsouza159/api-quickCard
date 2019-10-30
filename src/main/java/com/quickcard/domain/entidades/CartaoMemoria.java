@@ -10,22 +10,22 @@ public class CartaoMemoria extends EntidadeBasica implements ICartaoMemoria {
     private String versoCartao;
 
     @Override
-    public String GetFrenteCartao() {
+    public String getFrenteCartao() {
         return this.frenteCartao;
     }
 
     @Override
-    public String GetVersoCartao()  {
+    public String getVersoCartao()  {
         return this.versoCartao;
     }
 
     @Override
-    public void SetFrenteCartao(String frenteCartao) {
+    public void setFrenteCartao(String frenteCartao) {
         this.frenteCartao = frenteCartao;
     }
 
     @Override
-    public void SetVersoCartao(String versoCartao) {
+    public void setVersoCartao(String versoCartao) {
         this.versoCartao = versoCartao;
     }
 }

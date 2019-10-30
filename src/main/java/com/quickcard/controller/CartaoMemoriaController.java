@@ -3,6 +3,7 @@ package com.quickcard.controller;
 import com.quickcard.config.RoutesController;
 import com.quickcard.domain.entidades.CartaoMemoria;
 import com.quickcard.domain.entidades.Estudante;
+import com.quickcard.domain.exception.EntityNotFoundException;
 import com.quickcard.domain.interfaces.controller.IControllerRest;
 import com.quickcard.domain.interfaces.entidade.ICartaoMemoria;
 import com.quickcard.domain.interfaces.entidade.IEstudante;
@@ -15,7 +16,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin
@@ -25,53 +28,72 @@ public class CartaoMemoriaController extends ControllerBasic {
     private ICartaoMemoriaServico _cartaoMemoriaServico;
 
     @Autowired
-    private IEstudanteServico _estudanteServico;
-
-    @Autowired
-    public CartaoMemoriaController(ICartaoMemoriaServico cartaoMemoriaServico , IEstudanteServico estudanteServico) {
+    public CartaoMemoriaController(ICartaoMemoriaServico cartaoMemoriaServico) {
 
         this._cartaoMemoriaServico = cartaoMemoriaServico;
-        this._estudanteServico     = estudanteServico;
     }
 
-    @RequestMapping(value = RoutesController.CARTAO_MEMORIA_PATH , method = RequestMethod.GET)
-    public ResponseEntity<List<ICartaoMemoria>> getAll(String idEstudante) throws Exception {
+    @RequestMapping(value = RoutesController.CARTAO_MEMORIA_PATH_ID_ESTUDANTE_ID_CARTAO , method = RequestMethod.GET)
+    public ResponseEntity<?> getByIdCartao(@PathVariable("idEstudante") String idEstudante, @PathVariable("idCartao") String idCartao) throws Exception {
+        try {
 
-        List<ICartaoMemoria> response = this._cartaoMemoriaServico.getAll(idEstudante);
+            ICartaoMemoria cartaoMemoria = this._cartaoMemoriaServico.getById(idEstudante , idCartao);
 
-        if(response == null) {
-            return ResponseEntity.noContent().build();
+            return this.contentyBodyResponse( cartaoMemoria );
+
+        }catch (EntityNotFoundException err) {
+
+            return this.badRequestEntityNotFound(err);
         }
-        return ResponseEntity.ok(response);
     }
 
-    @RequestMapping(value = RoutesController.CARTAO_MEMORIA_PATH + "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<ICartaoMemoria> getById(String id, String idEstudante) throws Exception {
+    @RequestMapping(value = RoutesController.CARTAO_MEMORIA_PATH_ID_BLOCO , method = RequestMethod.POST )
+    public ResponseEntity<?> created(@RequestBody CartaoMemoriaModel model, @PathVariable("idBloco") String idBloco) throws Exception {
+        try {
 
-        ICartaoMemoria response = this._cartaoMemoriaServico.getById(idEstudante , id);
+            ICartaoMemoria entityCartaoMemoria = this.mapper.map(model , CartaoMemoria.class);
 
-        if(response == null) {
-            return ResponseEntity.noContent().build();
+            this._cartaoMemoriaServico.add(entityCartaoMemoria , model.getIdEstudante() , idBloco );
+
+            return ResponseEntity.created(URI.create("")).build();
+
+        }catch (EntityNotFoundException err){
+
+            return this.badRequestEntityNotFound(err);
         }
-        return ResponseEntity.ok(response);
     }
 
-    @RequestMapping(value = RoutesController.CARTAO_MEMORIA_PATH , method = RequestMethod.POST ,consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<ICartaoMemoria> created(@RequestBody CartaoMemoriaModel model) throws Exception {
+    @RequestMapping(value = RoutesController.CARTAO_MEMORIA_PATH_ID_CARTAO , method = RequestMethod.PUT)
+    public ResponseEntity<?> update(@RequestBody CartaoMemoriaModel model, @PathVariable("idCartao") String idCartao) throws Exception {
+        try {
 
-        ICartaoMemoria response = this.mapper.map(model , CartaoMemoria.class);
+            ICartaoMemoria entityCartaoMemoria = this.mapper.map(model , CartaoMemoria.class);
 
+            entityCartaoMemoria.setId(UUID.fromString(idCartao));
 
-        return ResponseEntity.ok(response);
+            this._cartaoMemoriaServico.update(entityCartaoMemoria , model.getIdEstudante());
+
+            return ResponseEntity.ok(entityCartaoMemoria);
+
+        }catch (EntityNotFoundException err){
+
+            return this.badRequestEntityNotFound(err);
+        }
     }
 
-    @RequestMapping(value = RoutesController.CARTAO_MEMORIA_PATH , method = RequestMethod.PUT)
-    public <ITentity, IModel> ResponseEntity<ITentity> update(IModel iModel) throws Exception {
-        return null;
-    }
+    @RequestMapping(value = RoutesController.CARTAO_MEMORIA_PATH_ID_ESTUDANTE_ID_CARTAO , method = RequestMethod.DELETE)
+    public ResponseEntity<?> delete(@PathVariable("idEstudante") String idEstudante, @PathVariable("idCartao") String idCartao) throws Exception {
+        try {
 
-    @RequestMapping(value = RoutesController.CARTAO_MEMORIA_PATH , method = RequestMethod.DELETE)
-    public <ITentity> ResponseEntity<ITentity> delete(String id, String idEstudante) throws Exception {
-        return null;
+            ICartaoMemoria cartaoMemoria = this._cartaoMemoriaServico.getById(idEstudante , idCartao);
+
+            this._cartaoMemoriaServico.delete(cartaoMemoria , idEstudante);
+
+            return ResponseEntity.noContent().build();
+
+        }catch (EntityNotFoundException err) {
+
+            return this.badRequestEntityNotFound(err);
+        }
     }
 }

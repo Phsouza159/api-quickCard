@@ -13,4 +13,6 @@ public interface IBlocoCartao extends IEntidadeBasica {
     void addCartaoMemoria(ICartaoMemoria cartaoMemoria);
     String getNomeBloco();
     void setNomeBloco(String nomeBloco);
+
+    void removeItemCartaoMemoria(ICartaoMemoria cartaoMemoria);
 }
