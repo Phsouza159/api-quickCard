@@ -9,6 +9,7 @@ public class JwtResponse implements Serializable {
 
 	private static final long serialVersionUID = -8091879091924046844L;
 	private final String id;
+	private final String status;
 	private final String jwttoken;
 	private final Date dateAcesso;
 	private final Date dateExpired;
@@ -20,6 +21,7 @@ public class JwtResponse implements Serializable {
 		this.id	= id;
 		this.dateAcesso = new Date();
 		this.dateExpired = new Date(System.currentTimeMillis() + JwtTokenUtil.JWT_TOKEN_VALIDITY*1000);
+		this.status = "ok";
 	}
 
 	public String getToken() {

@@ -47,8 +47,8 @@ public class CartaoMemoriaController extends ControllerBasic {
         }
     }
 
-    @RequestMapping(value = RoutesController.CARTAO_MEMORIA_PATH_ID_BLOCO , method = RequestMethod.POST )
-    public ResponseEntity<?> created(@RequestBody CartaoMemoriaModel model, @PathVariable("idBloco") String idBloco) throws Exception {
+    @RequestMapping(value = RoutesController.CARTAO_MEMORIA_PATH_ID , method = RequestMethod.POST )
+    public ResponseEntity<?> created(@RequestBody CartaoMemoriaModel model, @PathVariable("id") String idBloco) throws Exception {
         try {
 
             ICartaoMemoria entityCartaoMemoria = this.mapper.map(model , CartaoMemoria.class);
@@ -63,8 +63,8 @@ public class CartaoMemoriaController extends ControllerBasic {
         }
     }
 
-    @RequestMapping(value = RoutesController.CARTAO_MEMORIA_PATH_ID_CARTAO , method = RequestMethod.PUT)
-    public ResponseEntity<?> update(@RequestBody CartaoMemoriaModel model, @PathVariable("idCartao") String idCartao) throws Exception {
+    @RequestMapping(value = RoutesController.CARTAO_MEMORIA_PATH_ID , method = RequestMethod.PUT)
+    public ResponseEntity<?> update(@RequestBody CartaoMemoriaModel model, @PathVariable("id") String idCartao) throws Exception {
         try {
 
             ICartaoMemoria entityCartaoMemoria = this.mapper.map(model , CartaoMemoria.class);

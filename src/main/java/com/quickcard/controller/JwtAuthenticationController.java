@@ -2,10 +2,14 @@ package com.quickcard.controller;
 
 import java.util.Objects;
 
+import com.quickcard.config.RoutesController;
+import com.quickcard.domain.entidades.Estudante;
 import com.quickcard.domain.interfaces.entidade.IEstudante;
 import com.quickcard.domain.interfaces.servico.IAutentificacaoServico;
 import com.quickcard.domain.interfaces.servico.IEstudanteServico;
+import com.quickcard.model.EstudanteModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -37,7 +41,7 @@ public class JwtAuthenticationController extends ControllerBasic {
 	@Autowired
 	private UserDetailsService jwtInMemoryUserDetailsService;
 
-	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+	@RequestMapping(value = "/authenticate" , method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
 		this.authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
@@ -66,4 +70,16 @@ public class JwtAuthenticationController extends ControllerBasic {
 			throw new Exception("INVALID_CREDENTIALS", e);
 		}
 	}
+
+
+	@RequestMapping(value = "/newUser" , method = RequestMethod.PUT)
+	public ResponseEntity<IEstudante> post(@RequestBody EstudanteModel estudanteModel) throws Exception {
+
+		IEstudante responseEntity = this.mapper.map(estudanteModel , Estudante.class);
+
+		this.estudanteServico.add(responseEntity);
+
+		return  ResponseEntity.status(HttpStatus.CREATED).body(responseEntity);
+	}
+
 }

@@ -1,5 +1,6 @@
 package com.quickcard.infra.contexto;
 
+import com.mongodb.MongoClientURI;
 import com.quickcard.domain.interfaces.infra.IDbContexto;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
@@ -24,6 +25,7 @@ public class DbContexto implements IDbContexto {
     private String _host = "127.0.0.1";
     private int _port = 27017;
     private String _dataBase = "admin";
+    private String ConnectString = "mongodb://paulo:sCNSY9Sd52mt2VIVsFBg5hIflLe3JVyfmPPdxgxLNHQ0c5Om27zojqwJzhQxcnTl4ehxzkM8INkODCUlvd9bQg==@paulo.documents.azure.com:10255/?ssl=true&replicaSet=globaldb";
 
     private Datastore _datastore;
     private Datastore GetDatastore(){
@@ -37,7 +39,8 @@ public class DbContexto implements IDbContexto {
     private Datastore GetInstacia(String dataBase) {
         Morphia morphia = new Morphia();
         morphia.mapPackage("com.baeldung.morphia");
-        Datastore datastore = morphia.createDatastore(new MongoClient(this._host , this._port), dataBase);
+        MongoClient mongoClient = new MongoClient(new MongoClientURI(this.ConnectString));
+        Datastore datastore = morphia.createDatastore(mongoClient, dataBase);
         datastore.ensureIndexes();
         return datastore;
     }

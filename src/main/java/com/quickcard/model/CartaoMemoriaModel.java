@@ -8,15 +8,16 @@ public class CartaoMemoriaModel  implements Serializable , ICartaoMemoriaModel {
 
     public CartaoMemoriaModel() {}
 
-    public CartaoMemoriaModel(String idEstudante, String frenteCartao, String versoCartao) {
-        this.idEstudante  = idEstudante;
-        this.frenteCartao = frenteCartao;
-        this.versoCartao  = versoCartao;
-    }
 
     String idEstudante;
     String frenteCartao;
     String versoCartao;
+
+    String dataVisualizacao;
+    String timeVisualizacao;
+
+    int acertoFacil;
+    int acertoMedio;
 
     @Override
     public String getIdEstudante() { return this.idEstudante;  }
@@ -32,6 +33,26 @@ public class CartaoMemoriaModel  implements Serializable , ICartaoMemoriaModel {
     }
 
     @Override
+    public String getDataVisualizacao() {
+        return this.getDataVisualizacao();
+    }
+
+    @Override
+    public String getTimeVisualizacao() {
+        return this.getTimeVisualizacao();
+    }
+
+    @Override
+    public int getAcertoFacil() {
+        return this.getAcertoFacil();
+    }
+
+    @Override
+    public int getAcertoMedio() {
+        return this.getAcertoMedio();
+    }
+
+    @Override
     public void setFrenteCartao(String frente) {
         this.frenteCartao = frente;
     }
@@ -43,4 +64,14 @@ public class CartaoMemoriaModel  implements Serializable , ICartaoMemoriaModel {
 
     @Override
     public void setIdEstudante(String idEstudante) { this.idEstudante = idEstudante; }
+
+    @Override
+    public void setAcertoFacil(int acertoFacil) {
+        this.acertoFacil = acertoFacil;
+    }
+
+    @Override
+    public void setAcertoMedio(int acertoMedio) {
+        this.acertoMedio = acertoMedio;
+    }
 }

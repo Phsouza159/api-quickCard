@@ -79,6 +79,7 @@ public class BlocoCartaoController extends ControllerBasic {
             IBlocoCartao blocoCartao = this.mapper.map(blocoCartaoModel , BlocoCartao.class);
             blocoCartao.setId( UUID.fromString(idBloco) );
 
+
             this._blocoCartaoServico.update(blocoCartao , idEstudante );
 
             return ResponseEntity.noContent().build();
