@@ -63,13 +63,13 @@ public class CartaoMemoriaController extends ControllerBasic {
         }
     }
 
-    @RequestMapping(value = RoutesController.CARTAO_MEMORIA_PATH_ID , method = RequestMethod.PUT)
-    public ResponseEntity<?> update(@RequestBody CartaoMemoriaModel model, @PathVariable("id") String idCartao) throws Exception {
+    @RequestMapping(value = RoutesController.CARTAO_MEMORIA_PATH_UPDATE , method = RequestMethod.POST)
+    public ResponseEntity<?> update(@RequestBody CartaoMemoriaModel model, @PathVariable("id") String id) throws Exception {
         try {
 
             ICartaoMemoria entityCartaoMemoria = this.mapper.map(model , CartaoMemoria.class);
 
-            entityCartaoMemoria.setId(UUID.fromString(idCartao));
+            entityCartaoMemoria.setId(UUID.fromString(id));
 
             this._cartaoMemoriaServico.update(entityCartaoMemoria , model.getIdEstudante());
 

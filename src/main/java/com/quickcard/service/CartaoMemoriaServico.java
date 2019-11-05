@@ -104,6 +104,12 @@ public class CartaoMemoriaServico extends ServicoBasico implements ICartaoMemori
         cartaoMemoriaBase.setFrenteCartao(entity.getFrenteCartao());
         cartaoMemoriaBase.setVersoCartao(entity.getVersoCartao());
 
+        cartaoMemoriaBase.setAcertoFacil(entity.getAcertoFacil());
+        cartaoMemoriaBase.setAcertoMedio(entity.getAcertoMedio());
+
+        cartaoMemoriaBase.setDataVisualizacao(entity.getDataVisualizacao());
+        cartaoMemoriaBase.setTimeVisualizacao(entity.getTimeVisualizacao());
+
         this._estudanteServico.update(estudanteEntity);
     }
 

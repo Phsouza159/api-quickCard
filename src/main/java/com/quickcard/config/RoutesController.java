@@ -5,6 +5,7 @@ public class  RoutesController {
     public final static String AUTHENTICATE = "/authenticate";
 
     public final static String CARTAO_MEMORIA_PATH = "/cartaoMemoria";
+    public final static String CARTAO_MEMORIA_PATH_UPDATE = "/cartaoMemoria-update/{id}";
     public final static String CARTAO_MEMORIA_PATH_ID = "/cartaoMemoria/{id}";
     public final static String CARTAO_MEMORIA_PATH_ID_ESTUDANTE_ID_CARTAO = "/cartaoMemoria/{idEstudante}/{idCartao}";
 
